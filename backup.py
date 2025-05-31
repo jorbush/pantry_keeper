@@ -25,6 +25,7 @@ from utils import (
 # Load environment variables
 load_dotenv()
 
+
 class PantryKeeper:
     def __init__(self):
         self.database_url = os.getenv('DATABASE_URL')
@@ -43,7 +44,8 @@ class PantryKeeper:
                 self.logger.info("Email notifications: ENABLED and CONFIGURED")
             else:
                 missing = ', '.join(email_status['missing_vars'])
-                self.logger.warning(f"Email notifications: ENABLED but missing variables: {missing}")
+                self.logger.warning(
+                    f"Email notifications: ENABLED but missing variables: {missing}")
         else:
             self.logger.info("Email notifications: DISABLED")
 
@@ -86,7 +88,8 @@ class PantryKeeper:
         except subprocess.CalledProcessError as e:
             error_msg = f"mongodump failed: {e.stderr}"
             self.logger.error(error_msg)
-            send_error_email(error_msg, backup_path.name if backup_path else None)
+            send_error_email(
+                error_msg, backup_path.name if backup_path else None)
             return False
 
     def _create_archive(self, backup_path):
@@ -108,7 +111,8 @@ class PantryKeeper:
                 backup_date = parse_backup_filename(backup_file.name)
 
                 if backup_date is None:
-                    self.logger.warning(f"Could not parse date from backup file: {backup_file.name}")
+                    self.logger.warning(
+                        f"Could not parse date from backup file: {backup_file.name}")
                     continue
 
                 if backup_date < cutoff_date:
@@ -124,7 +128,8 @@ class PantryKeeper:
     def _log_cleanup_result(self, removed_count):
         """Log the result of the cleanup operation."""
         if removed_count > 0:
-            self.logger.info(f"Cleanup completed: {removed_count} old backups removed")
+            self.logger.info(
+                f"Cleanup completed: {removed_count} old backups removed")
         else:
             self.logger.info("No old backups to remove")
 
