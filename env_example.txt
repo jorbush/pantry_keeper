@@ -1,0 +1,20 @@
+# MongoDB Database URL
+# For local MongoDB:
+# DATABASE_URL=mongodb://localhost:27017/jorbites
+
+# For MongoDB Atlas (cloud):
+# DATABASE_URL=mongodb+srv://username:password@cluster.mongodb.net/jorbites
+
+# For MongoDB with authentication:
+# DATABASE_URL=mongodb://username:password@localhost:27017/jorbites
+
+DATABASE_URL=mongodb://localhost:27017/jorbites
+
+# Email Configuration (for error notifications)
+# EMAIL_USER=your-email@gmail.com
+# EMAIL_PASSWORD=your-app-password
+# EMAIL_TO=admin@yourdomain.com
+
+# Optional: Custom SMTP settings (defaults to Gmail)
+# SMTP_SERVER=smtp.gmail.com
+# SMTP_PORT=587

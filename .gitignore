@@ -1,2 +1,6 @@
 venv
 .env
+backups
+logs
+__pycache__
+pantry-keeper.service
