@@ -10,13 +10,6 @@ Automated backup system for MongoDB from [Jorbites](https://jorbites.com).
 
 ## Installation
 
-Run the Makefile commands:
-```bash
-make venv
-```
-
-Or manually:
-
 - Create a virtual environment:
     ```bash
     python -m venv venv
