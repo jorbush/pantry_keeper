@@ -95,3 +95,9 @@ To run the backup scheduler automatically as a system service:
 
 > [!NOTE]
 > You can find the documentation [here](./docs/deployment-guide.md).
+
+### Formatting
+
+```bash
+make fmt
+```

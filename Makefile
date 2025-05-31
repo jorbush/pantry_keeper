@@ -17,3 +17,6 @@ restart-pk:
 
 status-pk:
 	sudo systemctl status pantry-keeper
+
+fmt:
+	autopep8 --recursive --exclude venv --in-place .
