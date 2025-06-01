@@ -1,0 +1,15 @@
+[Unit]
+Description=Pantry Keeper MongoDB Backup Scheduler
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/mnt/drive4/pantry_keeper
+Environment=PATH=/mnt/drive4/pantry_keeper/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ExecStart=/mnt/drive4/pantry_keeper/venv/bin/python scheduler.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
