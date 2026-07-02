@@ -55,8 +55,8 @@ def setup_logging(log_file):
     axiom_dataset = os.getenv("AXIOM_DATASET")
     if axiom_token and axiom_dataset:
         try:
-            from axiom import Client
-            from axiom.logging import AxiomHandler
+            from axiom_py import Client
+            from axiom_py.logging import AxiomHandler
 
             axiom_client = Client(axiom_token)
             axiom_handler = AxiomHandler(axiom_client, axiom_dataset)
