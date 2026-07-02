@@ -12,6 +12,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from dotenv import load_dotenv
 from constants import *
 
 
@@ -26,9 +27,9 @@ class _ServiceFilter(logging.Filter):
         record.service = self.service_name
         return True
 
-
 def setup_logging(log_file):
     """Setup logging configuration with optional Axiom integration."""
+    load_dotenv()
     # Ensure logs directory exists
     ensure_directory_exists(LOGS_DIR)
 
