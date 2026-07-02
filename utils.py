@@ -15,19 +15,60 @@ from email.mime.multipart import MIMEMultipart
 from constants import *
 
 
+class _ServiceFilter(logging.Filter):
+    """Inject a 'service' field into every log record."""
+
+    def __init__(self, service_name: str):
+        super().__init__()
+        self.service_name = service_name
+
+    def filter(self, record: logging.LogRecord) -> bool:
+        record.service = self.service_name
+        return True
+
+
 def setup_logging(log_file):
-    """Setup logging configuration."""
+    """Setup logging configuration with optional Axiom integration."""
     # Ensure logs directory exists
     ensure_directory_exists(LOGS_DIR)
 
-    logging.basicConfig(
-        level=logging.INFO,
-        format=LOG_FORMAT,
-        handlers=[
-            logging.FileHandler(log_file),
-            logging.StreamHandler()
-        ]
-    )
+    root_logger = logging.getLogger()
+    root_logger.setLevel(logging.INFO)
+
+    service_filter = _ServiceFilter("pantry_keeper")
+
+    # Stdout handler
+    stdout_handler = logging.StreamHandler()
+    stdout_handler.setFormatter(logging.Formatter(LOG_FORMAT))
+    stdout_handler.addFilter(service_filter)
+
+    # File handler
+    file_handler = logging.FileHandler(log_file)
+    file_handler.setFormatter(logging.Formatter(LOG_FORMAT))
+    file_handler.addFilter(service_filter)
+
+    handlers = [stdout_handler, file_handler]
+
+    # Optional Axiom handler — only when env vars are present
+    axiom_token = os.getenv("AXIOM_TOKEN")
+    axiom_dataset = os.getenv("AXIOM_DATASET")
+    if axiom_token and axiom_dataset:
+        try:
+            from axiom import Client
+            from axiom.logging import AxiomHandler
+
+            axiom_client = Client(axiom_token)
+            axiom_handler = AxiomHandler(axiom_client, axiom_dataset)
+            axiom_handler.setLevel(logging.INFO)
+            axiom_handler.addFilter(service_filter)
+            handlers.append(axiom_handler)
+        except Exception as e:
+            # Don't crash if axiom-py is unavailable or misconfigured
+            print(f"[pantry_keeper] Axiom logging unavailable: {e}")
+
+    for handler in handlers:
+        root_logger.addHandler(handler)
+
     return logging.getLogger(__name__)
 
 
