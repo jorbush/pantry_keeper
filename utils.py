@@ -27,6 +27,7 @@ class _ServiceFilter(logging.Filter):
         record.service = self.service_name
         return True
 
+
 def setup_logging(log_file):
     """Setup logging configuration with optional Axiom integration."""
     load_dotenv()
